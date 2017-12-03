@@ -1,0 +1,87 @@
+
+<html>
+    <head>
+        <title>Teste de API</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>Teste api Fornecedor</h1>
+            <hr>
+            <div>
+                <b>Gravar</b><br/>
+                <input type="text" id="txtNomeGravar" />
+                <a id="aGravarFornecedor" href="#">Enviar</a>
+            </div>
+            <p>&nbsp;</p>
+            <div>
+                <b>Editar</b><br/>
+                <input type="text" id="txtIdEditar" placeholder="ID" />
+                <input type="text" id="txtNomeEditar" placeholder="NOME" />
+                <a id="aEditarFornecedor" href="#">Enviar</a>
+            </div>
+            <p>&nbsp;</p>
+            <div>
+                <b>Excluir</b><br/>
+                <input type="text" id="txtIdExcluir" placeholder="ID" />
+                <a id="aExcluirFornecedor" href="#">Enviar</a>
+
+            </div>
+        </div>
+        
+        
+        <script>
+            $(function () {
+                $("#aGravarFornecedor").on("click", function () {
+                    $.ajax({
+                        url: "/novo-fornecedor",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            nome: $("#txtNomeGravar").val()
+                        },
+                        success: function (response) {
+                            if (response === "OK") {
+                                $("#txtNomeGravar").val("");
+                            }
+                            alert("GRAVAR - " + response);
+                        }
+                    });
+                });
+                $("#aEditarFornecedor").on("click", function () {
+                    $.ajax({
+                        url: "/editar-fornecedor",
+                        type: "put",
+                        dataType: "json",
+                        data: {
+                            id: $("#txtIdEditar").val(),
+                            nome: $("#txtNomeEditar").val()
+                        },
+                        success: function (response) {
+                            if (response === "OK") {
+                                $("#txtIdEditar").val("");
+                                $("#txtNomeEditar").val("");
+                            }
+                            alert("EDITAR - " + response);
+                        }
+                    });
+                });
+                $("#aExcluirFornecedor").on("click", function () {
+                    $.ajax({
+                        url: "/del-fornecedor/" + $("#txtIdExcluir").val(),
+                        type: "delete",
+                        success: function (response) {
+                            if (response === "OK") {
+                                $("#txtIdExcluir").val("");
+                            }
+                            alert("EXCLUIR - " + response);
+                        }
+                    });
+                });
+            }
+            );
+        </script>
+    </body>
+</html>
