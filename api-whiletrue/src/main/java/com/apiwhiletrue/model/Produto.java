@@ -9,14 +9,16 @@ public class Produto {
     private String nome;
     private double valor;
     private Categoria categoria;
+    private Fornecedor fornecedor;
 
     public Produto() {}
     
-    public Produto(int id, String nome, double valor, Categoria categoria) {
+    public Produto(int id, String nome, double valor, Categoria categoria, Fornecedor fornecedor) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
         this.categoria = categoria;
+        this.fornecedor = fornecedor;
     }
 
     public int getId() {
@@ -49,6 +51,14 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
     
     
