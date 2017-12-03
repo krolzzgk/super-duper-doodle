@@ -1,27 +1,19 @@
 package com.apiwhiletrue.controller;
 
-import com.apiwhiletrue.model.Categoria;
-import com.apiwhiletrue.model.Fornecedor;
-import com.apiwhiletrue.model.Produto;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+//import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
  * @author while true
  */
-@RestController
+@Controller
 public class TestController {
-
-    @GetMapping("/echo/{nome}")
-    public String ping(@PathVariable(value = "nome") String nome) {
-
-        return "Oi, " + nome;
-    }
-
-    @GetMapping("/teste-produto/{id}")
-    public Produto getProduto(@PathVariable(value = "id") int id) {
-        return new Produto(id, "QWERTY", 19.99, new Categoria(19, "Categoria X"), new Fornecedor(13, "Fornecedor Y"));
+    
+    @GetMapping("/teste-api")
+    public ModelAndView index() {
+        return new ModelAndView("teste-api.html");
     }
 }

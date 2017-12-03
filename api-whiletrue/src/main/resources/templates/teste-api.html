@@ -1,0 +1,85 @@
+
+<html>
+    <head>
+        <title>Teste de API</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <h1>Teste api Categoria</h1>
+            <hr>
+            <div>
+                <b>Gravar</b><br/>
+                <input type="text" id="txtNomeGravar" />
+                <a id="aGravarCategoria" href="#">Enviar</a>
+            </div>
+            <p>&nbsp;</p>
+            <div>
+                <b>Editar</b><br/>
+                <input type="text" id="txtIdEditar" placeholder="ID" />
+                <input type="text" id="txtNomeEditar" placeholder="NOME" />
+                <a id="aEditarCategoria" href="#">Enviar</a>
+            </div>
+            <p>&nbsp;</p>
+            <div>
+                <b>Excluir</b><br/>
+                <input type="text" id="txtIdExcluir" placeholder="ID" />
+                <a id="aExcluirCategoria" href="#">Enviar</a>
+
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $("#aGravarCategoria").on("click", function () {
+                    $.ajax({
+                        url: "/nova-categoria",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            nome: $("#txtNomeGravar").val()
+                        },
+                        success: function (response) {
+                            if (response === "OK") {
+                                $("#txtNomeGravar").val("");
+                            }
+                            alert("GRAVAR - " + response);
+                        }
+                    });
+                });
+                $("#aEditarCategoria").on("click", function () {
+                    $.ajax({
+                        url: "/editar-categoria",
+                        type: "put",
+                        dataType: "json",
+                        data: {
+                            id: $("#txtIdEditar").val(),
+                            nome: $("#txtNomeEditar").val()
+                        },
+                        success: function (response) {
+                            if (response === "OK") {
+                                $("#txtIdEditar").val("");
+                                $("#txtNomeEditar").val("");
+                            }
+                            alert("EDITAR - " + response);
+                        }
+                    });
+                });
+                $("#aExcluirCategoria").on("click", function () {
+                    $.ajax({
+                        url: "/del-categoria/" + $("#txtIdExcluir").val(),
+                        type: "delete",
+                        success: function (response) {
+                            if (response === "OK") {
+                                $("#txtIdExcluir").val("");
+                            }
+                            alert("EXCLUIR - " + response);
+                        }
+                    });
+                });
+            }
+            );
+        </script>
+    </body>
+</html>
