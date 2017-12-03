@@ -20,34 +20,38 @@
     </head>
     <body>
         <div>
-            <h1>Teste api Categoria</h1>
+            <h1>Teste api Produto</h1>
             <hr>
             <div>
                 <b>Gravar</b><br/>
-                <input type="text" id="txtNomeGravar" />
-                <a id="aGravarCategoria" href="#">Enviar</a>
+                <input type="text" id="txtNomeGravar" placeholder="NOME" />
+                <input type="text" id="txtValorGravar" placeholder="VALOR 99.99" />
+                <select id="selCategoria"></select>
+                <select id="selFornecedor"></select>
+                <a id="aGravarProduto" href="#">Enviar</a>
             </div>
             <p>&nbsp;</p>
             <div>
                 <b>Editar</b><br/>
                 <input type="text" id="txtIdEditar" placeholder="ID" />
                 <input type="text" id="txtNomeEditar" placeholder="NOME" />
-                <a id="aEditarCategoria" href="#">Enviar</a>
+                <input type="text" id="txtValorEditar" placeholder="VALOR 99.99" />
+                <a id="aEditarProduto" href="#">Enviar</a>
             </div>
             <p>&nbsp;</p>
             <div>
                 <b>Excluir</b><br/>
                 <input type="text" id="txtIdExcluir" placeholder="ID" />
-                <a id="aExcluirCategoria" href="#">Enviar</a>
+                <a id="aExcluirProduto" href="#">Enviar</a>
 
             </div>
             <p>&nbsp;</p>
             <div>
-                <b>Lista de Categorias</b>
+                <b>Lista de Produto</b>
                 <a id="aAtualizarLista" href="#">Atualizar listagem</a>
                 <table>
                     <thead>
-                        <tr><th>Id</th><th>Nome</th></tr>
+                        <tr><th>Id</th><th>Nome</th><th>Valor</th><th>Categoria</th><th>Fornecedor</th></tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -57,43 +61,65 @@
 
         <script>
             $(function () {
-                $("#aGravarCategoria").on("click", function () {
+
+                $.get("/categoria", function (response) {
+                    $("#selCategoria").empty().append(`<option selected></option>`);
+                    for (var i = 0; i < response.length; i++) {
+                        $("#selCategoria").append(`<option value="${response[i].id}">${response[i].nome}</option>`);
+                    }
+                });
+                $.get("/fornecedor", function (response) {
+                    $("#selFornecedor").empty().append(`<option selected></option>`);
+                    for (var i = 0; i < response.length; i++) {
+                        $("#selFornecedor").append(`<option value="${response[i].id}">${response[i].nome}</option>`);
+                    }
+                });
+
+                $("#aGravarProduto").on("click", function () {
                     $.ajax({
-                        url: "/nova-categoria",
+                        url: "/novo-produto",
                         type: "post",
                         dataType: "json",
                         data: {
-                            nome: $("#txtNomeGravar").val()
+                            nome: $("#txtNomeGravar").val(),
+                            valor: $("#txtValorGravar").val(),
+                            categoriaId: $("#selCategoria").val(),
+                            fornecedorId: $("#selFornecedor").val()
                         },
                         success: function (response) {
                             if (response === "OK") {
                                 $("#txtNomeGravar").val("");
+                                $("#txtValorGravar").val("");
+                                $("#selCategoria").val("");
+                                $("#selFornecedor").val("");
                             }
                             alert("GRAVAR - " + response);
                         }
                     });
                 });
-                $("#aEditarCategoria").on("click", function () {
+                $("#aEditarProduto").on("click", function () {
                     $.ajax({
-                        url: "/editar-categoria",
+                        url: "/editar-produto",
                         type: "put",
                         dataType: "json",
                         data: {
                             id: $("#txtIdEditar").val(),
-                            nome: $("#txtNomeEditar").val()
+                            nome: $("#txtNomeEditar").val(),
+                            valor: $("#txtValorEditar").val()
                         },
                         success: function (response) {
                             if (response === "OK") {
                                 $("#txtIdEditar").val("");
                                 $("#txtNomeEditar").val("");
+                                $("#txtValorEditar").val("");
                             }
                             alert("EDITAR - " + response);
                         }
                     });
                 });
-                $("#aExcluirCategoria").on("click", function () {
+                $("#aExcluirProduto").on("click", function () {
                     $.ajax({
-                        url: "/del-categoria/" + $("#txtIdExcluir").val(),
+                        url: "/del-produto/" + $("#txtIdExcluir").val(),
                         type: "delete",
                         success: function (response) {
                             if (response === "OK") {
@@ -104,11 +130,15 @@
                     });
                 });
                 $("#aAtualizarLista").on("click", function () {
-                    $.get("/categoria", function (response) {
+                    $.get("/produto", function (response) {
                         $("tbody").empty();
                         for (var i = 0; i < response.length; i++) {
                             var item = response[i];
-                            $("tbody").append(`<tr><td>${item.id}</td><td>${item.nome}</td></tr>`);
+                            $("tbody").append(`<tr><td>${item.id}</td>
+                                                    <td>${item.nome}</td>
+                                                    <td>${item.valor}</td>
+                                                    <td>${item.categoria.nome}</td>
+                                                    <td>${item.fornecedor.nome}</td></tr>`);
                         }
                     });
                 });

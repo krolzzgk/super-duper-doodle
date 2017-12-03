@@ -5,6 +5,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <style>
+            table {
+                border-top:1px solid #000;
+                margin-top: 10px;
+            }
+            th,td {
+                min-width: 100px;
+            }
+            td{
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
         <div>
@@ -29,9 +41,20 @@
                 <a id="aExcluirFornecedor" href="#">Enviar</a>
 
             </div>
+            <p>&nbsp;</p>
+            <div>
+                <b>Lista de Fornecedores</b>
+                <a id="aAtualizarLista" href="#">Atualizar listagem</a>
+                <table>
+                    <thead>
+                        <tr><th>Id</th><th>Nome</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
-        
-        
+
+
         <script>
             $(function () {
                 $("#aGravarFornecedor").on("click", function () {
@@ -80,8 +103,16 @@
                         }
                     });
                 });
-            }
-            );
+                $("#aAtualizarLista").on("click", function () {
+                    $.get("/fornecedor", function (response) {
+                        $("tbody").empty();
+                        for (var i = 0; i < response.length; i++) {
+                            var item = response[i];
+                            $("tbody").append(`<tr><td>${item.id}</td><td>${item.nome}</td></tr>`);
+                        }
+                    });
+                });
+            });
         </script>
     </body>
 </html>

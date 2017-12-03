@@ -22,4 +22,9 @@ public class TestController {
     public ModelAndView testeFornecedor() {
         return new ModelAndView("teste-api-fornecedor.html");
     }
+
+    @GetMapping("/produto")
+    public ModelAndView testeProduto() {
+        return new ModelAndView("teste-api-produto.html");
+    }
 }
