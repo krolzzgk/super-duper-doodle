@@ -26,7 +26,7 @@ create table produto
 
 
 
-insert into categoria (nome) values ('Calçado'), ('Roupas'), ('Bolas e Acessorios'), ('Perfomes e Beleza');
+insert into categoria (nome) values ('Calçado'), ('Roupas'), ('Bolsas e Acessorios'), ('Perfomes e Beleza');
 
 
 insert into fornecedor (nome) values 
